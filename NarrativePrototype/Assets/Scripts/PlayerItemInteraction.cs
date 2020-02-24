@@ -13,7 +13,6 @@ public class PlayerItemInteraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -29,6 +28,7 @@ public class PlayerItemInteraction : MonoBehaviour
                 {
                     keys++;
                     // play sound
+                    //AudioManager.playSound("collect");
                     hit.transform.gameObject.SetActive(false);
                 }
                 else if (hit.transform.CompareTag("Door"))
@@ -62,6 +62,7 @@ public class PlayerItemInteraction : MonoBehaviour
                             keys--;
                             hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
                             openDoors.Add(hit.transform);
+                            //AudioManager.playSound("door");
                         }
                     }
                 }
