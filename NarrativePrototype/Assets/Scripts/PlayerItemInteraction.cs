@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerItemInteraction : MonoBehaviour
 {
-    private int keys = 0;
-    private bool firstDoor = true;
     public GameObject monsterSit;
+    public Transform keyText;
 
-    private List<Transform> openDoors = new List<Transform>();
+    public int keys = 0;
+    private bool firstDoor = true;
+    public List<Animator> openDoors;
+    private List<Transform> unlockedDoors = new List<Transform>();
 
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = 0; i < openDoors.Count; i++)
+        {
+            openDoors[i].SetBool("open", true);
+            unlockedDoors.Add(openDoors[i].transform.GetChild(1).GetChild(3));
+        }
+        TextUpdate();
     }
 
     // Update is called once per frame
@@ -27,6 +36,7 @@ public class PlayerItemInteraction : MonoBehaviour
                 if (hit.transform.CompareTag("Key"))
                 {
                     keys++;
+                    TextUpdate();
                     // play sound
                     //AudioManager.playSound("collect");
                     hit.transform.gameObject.SetActive(false);
@@ -34,9 +44,9 @@ public class PlayerItemInteraction : MonoBehaviour
                 else if (hit.transform.CompareTag("Door"))
                 {
                     bool opened = false;
-                    for (int i = 0; i < openDoors.Count; i++)
+                    for (int i = 0; i < unlockedDoors.Count; i++)
                     {
-                        if (hit.transform == openDoors[i])
+                        if (hit.transform == unlockedDoors[i])
                         {
                             if (hit.transform.parent.parent.GetComponent<Animator>().GetBool("open"))
                             {
@@ -52,20 +62,63 @@ public class PlayerItemInteraction : MonoBehaviour
                     }
                     if (!opened)
                     {
-                        if (keys >= 1)
+                        if (firstDoor)
                         {
-                            if (firstDoor)
-                            {
-                                firstDoor = false;
-                                monsterSit.SetActive(false);
-                            }
+                            firstDoor = false;
+                            monsterSit.SetActive(false);
+                            hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
+                            unlockedDoors.Add(hit.transform);
+                        }
+                        else if (keys >= 1)
+                        {
                             keys--;
                             hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
-                            openDoors.Add(hit.transform);
+                            unlockedDoors.Add(hit.transform);
                             //AudioManager.playSound("door");
+                            TextUpdate();
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void TextUpdate()
+    {
+        if (unlockedDoors.Count <= 8)
+        {
+            if (keys == 0)
+            {
+                keyText.GetChild(0).gameObject.SetActive(true);
+                keyText.GetChild(1).gameObject.SetActive(true);
+                keyText.GetChild(2).gameObject.SetActive(false);
+                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "my dear - \noh, my love";
+                keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "you forgot to lock the door.";
+            }
+            else if (keys == 1)
+            {
+                keyText.GetChild(0).gameObject.SetActive(true);
+                keyText.GetChild(1).gameObject.SetActive(false);
+                keyText.GetChild(2).gameObject.SetActive(false);
+                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "   you thought you could\nfind us";
+            }
+            else if (keys == 2)
+            {
+                keyText.GetChild(0).gameObject.SetActive(false);
+                keyText.GetChild(1).gameObject.SetActive(false);
+                keyText.GetChild(2).gameObject.SetActive(true);
+                keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "     we locked the doors\n     but it was already inside";
+            }
+            else if (keys == 3)
+            {
+                keyText.GetChild(0).gameObject.SetActive(true);
+                keyText.GetChild(1).gameObject.SetActive(true);
+                keyText.GetChild(2).gameObject.SetActive(true);
+                keyText.GetChild(3).gameObject.SetActive(true);
+                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "one key in\nyour left\neye";
+                keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "one key in your right eye";
+                keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "one key in your tongue\nsings a song for me";
+                keyText.GetChild(3).GetComponent<TextMeshProUGUI>().text = "no key for me\n     no key for me?";
             }
         }
     }

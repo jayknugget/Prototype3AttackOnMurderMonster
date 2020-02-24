@@ -8,10 +8,13 @@ public class Flashlight : MonoBehaviour
     public Light flash;
     private bool flashlightOn;
 
+    public GameObject darkTextObject;
+
     // Start is called before the first frame update
     void Start()
     {
         flashlightOn = true;
+        darkTextObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -30,9 +33,11 @@ public class Flashlight : MonoBehaviour
         if (flashlightOn)
         {
             flashlightOn = false;
+            darkTextObject.SetActive(true);
         }
         else
         {
+            darkTextObject.SetActive(false);
             flashlightOn = true;
         }
 
