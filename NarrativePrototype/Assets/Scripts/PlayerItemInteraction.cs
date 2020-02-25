@@ -115,8 +115,12 @@ public class PlayerItemInteraction : MonoBehaviour
         {
             if (keys == 0)
             {
+                keyText.GetChild(0).gameObject.SetActive(false);
+                keyText.GetChild(1).gameObject.SetActive(false);
+                keyText.GetChild(2).gameObject.SetActive(false);
+                keyText.GetChild(3).gameObject.SetActive(false);
                 keyText.GetChild(4).gameObject.SetActive(true);
-                keyText.GetChild(4).GetComponent<TextMeshProUGUI>().text = "LMB: Collect | RMB: Flashlight";
+                keyText.GetChild(4).GetComponent<TextMeshProUGUI>().text = "He follows the light\n Look to the walls for answers\nLMB: Collect | RMB: Flashlight";
             }
             else if (keys == 1)
             {
@@ -132,7 +136,7 @@ public class PlayerItemInteraction : MonoBehaviour
                 keyText.GetChild(0).gameObject.SetActive(true);
                 keyText.GetChild(1).gameObject.SetActive(false);
                 keyText.GetChild(2).gameObject.SetActive(false);
-                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "   you thought you could\nfind us";
+                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "you thought\nyou could find us";
             }
             else if (keys == 3)
             {

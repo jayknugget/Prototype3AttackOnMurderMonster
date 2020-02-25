@@ -6,7 +6,7 @@ public class Flashlight : MonoBehaviour
 {
     public Camera cam;
     public Light flash;
-    private bool flashlightOn;
+    public static bool flashlightOn;
 
     public GameObject darkTextObject;
 
@@ -50,5 +50,10 @@ public class Flashlight : MonoBehaviour
         {
             flash.intensity = 0;
         }
+    }
+
+    public static bool IsFlashlightOn()
+    {
+        return flashlightOn;
     }
 }

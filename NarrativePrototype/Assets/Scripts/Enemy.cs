@@ -20,6 +20,15 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Flashlight.flashlightOn)
+        {
+            myAgent.speed = 3f;
+        }
+        else
+        {
+            myAgent.speed = .25f;
+        }
+
         if (Vector3.Distance(myAgent.destination, transform.position) <= 1)
         {
             currentWaypoint++;
@@ -28,7 +37,6 @@ public class Enemy : MonoBehaviour
                 currentWaypoint = 0;
             }
             myAgent.destination = waypoints[currentWaypoint].transform.position;
-
         }
 
     }
