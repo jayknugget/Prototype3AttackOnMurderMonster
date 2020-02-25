@@ -7,11 +7,14 @@ public class PlayerItemInteraction : MonoBehaviour
 {
     public GameObject monsterSit;
     public Transform keyText;
+    public GameObject lose;
 
     public int keys = 0;
     private bool firstDoor = true;
     public List<Animator> openDoors;
     private List<Transform> unlockedDoors = new List<Transform>();
+
+    private bool musicbox = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +43,27 @@ public class PlayerItemInteraction : MonoBehaviour
                     // play sound
                     //AudioManager.playSound("collect");
                     hit.transform.gameObject.SetActive(false);
+                }
+                else if (hit.transform.CompareTag("HolyGrail"))
+                {
+                    musicbox = true;
+                    hit.transform.gameObject.SetActive(false);
+                }
+                else if (hit.transform.CompareTag("Note"))
+                {
+
+                }
+                else if (hit.transform.CompareTag("LastDoor"))
+                {
+                    hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
+                    if (musicbox)
+                    {
+                        
+                    }
+                    else
+                    {
+                        lose.SetActive(true);
+                    }
                 }
                 else if (hit.transform.CompareTag("Door"))
                 {
