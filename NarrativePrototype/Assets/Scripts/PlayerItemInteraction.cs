@@ -5,6 +5,7 @@ using TMPro;
 
 public class PlayerItemInteraction : MonoBehaviour
 {
+    public GameObject monsterMove;
     public GameObject monsterSit;
     public Transform keyText;
     public GameObject lose;
@@ -41,7 +42,7 @@ public class PlayerItemInteraction : MonoBehaviour
                     keys++;
                     TextUpdate();
                     // play sound
-                    //AudioManager.playSound("collect");
+                    AudioManager.playSound("collect");
                     hit.transform.gameObject.SetActive(false);
                 }
                 else if (hit.transform.CompareTag("HolyGrail"))
@@ -90,6 +91,7 @@ public class PlayerItemInteraction : MonoBehaviour
                         {
                             firstDoor = false;
                             monsterSit.SetActive(false);
+                            monsterMove.SetActive(true);
                             hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
                             unlockedDoors.Add(hit.transform);
                         }
@@ -98,7 +100,7 @@ public class PlayerItemInteraction : MonoBehaviour
                             keys--;
                             hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
                             unlockedDoors.Add(hit.transform);
-                            //AudioManager.playSound("door");
+                            AudioManager.playSound("door");
                             TextUpdate();
                         }
                     }
@@ -113,27 +115,33 @@ public class PlayerItemInteraction : MonoBehaviour
         {
             if (keys == 0)
             {
+                keyText.GetChild(4).gameObject.SetActive(true);
+                keyText.GetChild(4).GetComponent<TextMeshProUGUI>().text = "LMB: Collect | RMB: Flashlight";
+            }
+            else if (keys == 1)
+            {
                 keyText.GetChild(0).gameObject.SetActive(true);
                 keyText.GetChild(1).gameObject.SetActive(true);
                 keyText.GetChild(2).gameObject.SetActive(false);
+                keyText.GetChild(3).gameObject.SetActive(false);
                 keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "my dear - \noh, my love";
                 keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "you forgot to lock the door.";
             }
-            else if (keys == 1)
+            else if (keys == 2)
             {
                 keyText.GetChild(0).gameObject.SetActive(true);
                 keyText.GetChild(1).gameObject.SetActive(false);
                 keyText.GetChild(2).gameObject.SetActive(false);
                 keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "   you thought you could\nfind us";
             }
-            else if (keys == 2)
+            else if (keys == 3)
             {
                 keyText.GetChild(0).gameObject.SetActive(false);
                 keyText.GetChild(1).gameObject.SetActive(false);
                 keyText.GetChild(2).gameObject.SetActive(true);
                 keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "     we locked the doors\n     but it was already inside";
             }
-            else if (keys == 3)
+            else if (keys == 4)
             {
                 keyText.GetChild(0).gameObject.SetActive(true);
                 keyText.GetChild(1).gameObject.SetActive(true);

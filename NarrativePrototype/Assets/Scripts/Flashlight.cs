@@ -13,8 +13,9 @@ public class Flashlight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        flashlightOn = true;
-        darkTextObject.SetActive(false);
+        flashlightOn = false;
+        flash.intensity = 0;
+        darkTextObject.SetActive(true);
     }
 
     // Update is called once per frame
