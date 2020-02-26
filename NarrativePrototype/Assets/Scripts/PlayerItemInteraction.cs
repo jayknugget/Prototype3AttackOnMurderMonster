@@ -30,7 +30,7 @@ public class PlayerItemInteraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < openDoors.Count; i++)
+        for (int i = 0; i < openDoors.Count; i++) // opening a few of the doors around the house
         {
             openDoors[i].SetBool("open", true);
             unlockedDoors.Add(openDoors[i].transform.GetChild(1).GetChild(3));
@@ -63,40 +63,40 @@ public class PlayerItemInteraction : MonoBehaviour
                     {
                         keys++;
                         TextUpdate();
-                        if (hit.transform.GetComponent<DataStorage>().keyDoor.tag == "LastDoor")
+                        if (hit.transform.GetComponent<DataStorage>().keyDoor.tag == "LastDoor") // if this key opens the last door
                         {
                             lastDoor = true;
-                            endDoor = hit.transform;
+                            endDoor = hit.transform; // record the last door
                         }
-                        else
+                        else // any other key
                         {
-                            unlockedDoors.Add(hit.transform.GetComponent<DataStorage>().keyDoor);
+                            unlockedDoors.Add(hit.transform.GetComponent<DataStorage>().keyDoor); // unlock that key's door
                         }
-                        hit.transform.GetComponent<DataStorage>().keyNumber.SetActive(true);
+                        hit.transform.GetComponent<DataStorage>().keyNumber.SetActive(true); // turn on the glow text that marks a door as unlocked
                         // play sound
-                        //AudioManager.playSound("collect");
-                        hit.transform.gameObject.SetActive(false);
+                        AudioManager.playSound("collect");
+                        hit.transform.gameObject.SetActive(false); // deactivate key
                     }
                     else if (hit.transform.CompareTag("MusicBox"))
                     {
-                        musicbox = true;
-                        hit.transform.gameObject.SetActive(false);
+                        musicbox = true; // music box acquired
+                        hit.transform.gameObject.SetActive(false); // deactiavte music box
                     }
                     else if (hit.transform.CompareTag("Note"))
                     {
-                        noteUI.SetActive(true);
-                        hit.transform.GetComponent<DataStorage>().noteText.SetActive(true);
+                        noteUI.SetActive(true); // activate note ui
+                        hit.transform.GetComponent<DataStorage>().noteText.SetActive(true); // activate note text
                         pause = true;
                     }
-                    else if (hit.transform.CompareTag("LastDoor"))
+                    else if (hit.transform.CompareTag("LastDoor")) // if opening last door
                     {
                         if (lastDoor)
                         {
-                            endUI.SetActive(true);
+                            endUI.SetActive(true); // activate last door warning ui
                             pause = true;
                         }
                     }
-                    else if (hit.transform.CompareTag("Door"))
+                    else if (hit.transform.CompareTag("Door")) // if opening any other door
                     {
                         bool opened = false;
                         for (int i = 0; i < unlockedDoors.Count; i++)
@@ -127,12 +127,12 @@ public class PlayerItemInteraction : MonoBehaviour
                         }
                         if (!opened)
                         {
-                            if (firstDoor)
+                            if (firstDoor) // first door does not need a key to unlock
                             {
                                 firstDoor = false;
-                                monsterSit.SetActive(false);
-                                hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
-                                unlockedDoors.Add(hit.transform);
+                                monsterSit.SetActive(false); // deactivate sitting monster
+                                hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true); // open the door
+                                unlockedDoors.Add(hit.transform); // record door as unlocked
                                 AudioManager.playSound("door");
                             }
                         }
@@ -144,8 +144,6 @@ public class PlayerItemInteraction : MonoBehaviour
 
     private void TextUpdate()
     {
-        if (unlockedDoors.Count <= 8)
-        {
             if (keys == 0)
             {
                 keyText.GetChild(0).gameObject.SetActive(false);
@@ -189,20 +187,19 @@ public class PlayerItemInteraction : MonoBehaviour
                 keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "one key in your tongue\nsings a song for me";
                 keyText.GetChild(3).GetComponent<TextMeshProUGUI>().text = "no key for me\n     no key for me?";
             }
-        }
     }
 
     public void EndGame()
     {
-        monsterMove.SetActive(false);
-        endDoor.parent.parent.GetComponent<Animator>().SetBool("open", true);
+        monsterMove.SetActive(false); // deactivate follower monster
+        endDoor.parent.parent.GetComponent<Animator>().SetBool("open", true); // open last door
         if (musicbox)
         {
-
+            // victory conditions
         }
-        else
+        else // defeat :(
         {
-            monsterLose.SetActive(true);
+            monsterLose.SetActive(true); // jump scare
         }
     }
 
@@ -210,10 +207,10 @@ public class PlayerItemInteraction : MonoBehaviour
     {
         for (int i = 1; i < noteUI.transform.childCount; i++)
         {
-            noteUI.transform.GetChild(i).gameObject.SetActive(false);
+            noteUI.transform.GetChild(i).gameObject.SetActive(false); // turn off note texts
         }
-        noteUI.SetActive(false);
-        endUI.SetActive(false);
-        pause = false;
+        noteUI.SetActive(false); // turn off note ui
+        endUI.SetActive(false); // turn off end ui
+        pause = false; // unpause
     }
 }
