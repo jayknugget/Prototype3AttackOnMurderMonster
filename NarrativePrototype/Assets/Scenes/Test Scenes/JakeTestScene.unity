@@ -3520,9 +3520,9 @@ MonoBehaviour:
     ForwardSpeed: 8
     BackwardSpeed: 4
     StrafeSpeed: 4
-    RunMultiplier: 2
+    RunMultiplier: 1.2
     RunKey: 304
-    JumpForce: 50
+    JumpForce: 30
     SlopeCurveModifier:
       serializedVersion: 2
       m_Curve:
@@ -3637,7 +3637,6 @@ MonoBehaviour:
   monsterSit: {fileID: 1496046465}
   monsterLose: {fileID: 586436072}
   keyText: {fileID: 1896804166}
-  lastDoor: 0
   openDoors:
   - {fileID: 181238995}
   - {fileID: 1606261273}
