@@ -26,6 +26,7 @@ public class Flashlight : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             FlashlightActivate();
+            GetComponent<AudioSource>().Play();
         }
     }
 

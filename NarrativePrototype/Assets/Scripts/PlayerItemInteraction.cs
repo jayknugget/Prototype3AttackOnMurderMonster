@@ -88,6 +88,7 @@ public class PlayerItemInteraction : MonoBehaviour
                         noteUI.SetActive(true); // activate note ui
                         hit.transform.GetComponent<DataStorage>().noteText.SetActive(true); // activate note text
                         pause = true;
+                        gameObject.GetComponent<AudioSource>().Play();
                     }
                     else if (hit.transform.CompareTag("LastDoor")) // if opening last door
                     {
