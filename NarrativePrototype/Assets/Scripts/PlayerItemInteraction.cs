@@ -67,7 +67,8 @@ public class PlayerItemInteraction : MonoBehaviour
                         if (hit.transform.GetComponent<DataStorage>().keyDoor.tag == "LastDoor") // if this key opens the last door
                         {
                             lastDoor = true;
-                            endDoor = hit.transform; // record the last door
+                            //endDoor = hit.transform; // record the last door
+                            endDoor = GameObject.FindGameObjectWithTag("LastDoor").transform;
                         }
                         else // any other key
                         {
@@ -132,6 +133,7 @@ public class PlayerItemInteraction : MonoBehaviour
                             if (firstDoor) // first door does not need a key to unlock
                             {
                                 firstDoor = false;
+                                keyText.GetChild(4).gameObject.SetActive(false);
                                 monsterSit.SetActive(false); // deactivate sitting monster
                                 hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true); // open the door
                                 unlockedDoors.Add(hit.transform); // record door as unlocked
@@ -140,6 +142,10 @@ public class PlayerItemInteraction : MonoBehaviour
                         }
                     }
                 }
+            }
+            if ((Input.GetKeyDown(KeyCode.Escape)))
+            {
+                Application.Quit();
             }
         }
     }
@@ -196,6 +202,7 @@ public class PlayerItemInteraction : MonoBehaviour
         else // defeat :(
         {
             monsterLose.SetActive(true); // jump scare
+            Resume();
         }
     }
 
