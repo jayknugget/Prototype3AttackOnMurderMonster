@@ -7,13 +7,23 @@ public class PlayerItemInteraction : MonoBehaviour
 {
     public GameObject monsterMove;
     public GameObject monsterSit;
-    public Transform keyText;
-    public GameObject lose;
+    public GameObject monsterLose;
 
-    public int keys = 0;
+    private int keys = 0;
+    public Transform keyText;
     private bool firstDoor = true;
+    private bool secondDoor = true;
+    private bool lastDoor = false;
+    private Transform endDoor;
     public List<Animator> openDoors;
     private List<Transform> unlockedDoors = new List<Transform>();
+
+    public GameObject noteUI;
+    private bool pause = false;
+
+    public GameObject endUI;
+
+    public GameObject musicKey;
 
     private bool musicbox = false;
 
@@ -31,77 +41,100 @@ public class PlayerItemInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (pause)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 2f))
+            Time.timeScale = 0;
+            if (Input.GetMouseButtonDown(0) && noteUI.activeInHierarchy)
             {
-                if (hit.transform.CompareTag("Key"))
-                {
-                    keys++;
-                    TextUpdate();
-                    // play sound
-                    AudioManager.playSound("collect");
-                    hit.transform.gameObject.SetActive(false);
-                }
-                else if (hit.transform.CompareTag("HolyGrail"))
-                {
-                    musicbox = true;
-                    hit.transform.gameObject.SetActive(false);
-                }
-                else if (hit.transform.CompareTag("Note"))
-                {
+                Resume();
+            }
+        }
+        else
+        {
+            Time.timeScale = 1;
 
-                }
-                else if (hit.transform.CompareTag("LastDoor"))
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit, 4f))
                 {
-                    hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
-                    if (musicbox)
+                    if (hit.transform.CompareTag("Key"))
                     {
-                        
-                    }
-                    else
-                    {
-                        lose.SetActive(true);
-                    }
-                }
-                else if (hit.transform.CompareTag("Door"))
-                {
-                    bool opened = false;
-                    for (int i = 0; i < unlockedDoors.Count; i++)
-                    {
-                        if (hit.transform == unlockedDoors[i])
+                        keys++;
+                        TextUpdate();
+                        if (hit.transform.GetComponent<DataStorage>().keyDoor.tag == "LastDoor")
                         {
-                            if (hit.transform.parent.parent.GetComponent<Animator>().GetBool("open"))
-                            {
-                                hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", false);
-                            }
-                            else
-                            {
-                                hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
-                            }
-                            opened = true;
-                            break;
-                         }
-                    }
-                    if (!opened)
-                    {
-                        if (firstDoor)
-                        {
-                            firstDoor = false;
-                            monsterSit.SetActive(false);
-                            monsterMove.SetActive(true);
-                            hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
-                            unlockedDoors.Add(hit.transform);
+                            lastDoor = true;
+                            endDoor = hit.transform;
                         }
-                        else if (keys >= 1)
+                        else
                         {
-                            keys--;
-                            hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
-                            unlockedDoors.Add(hit.transform);
-                            AudioManager.playSound("door");
-                            TextUpdate();
+                            unlockedDoors.Add(hit.transform.GetComponent<DataStorage>().keyDoor);
+                        }
+                        hit.transform.GetComponent<DataStorage>().keyNumber.SetActive(true);
+                        // play sound
+                        //AudioManager.playSound("collect");
+                        hit.transform.gameObject.SetActive(false);
+                    }
+                    else if (hit.transform.CompareTag("MusicBox"))
+                    {
+                        musicbox = true;
+                        hit.transform.gameObject.SetActive(false);
+                    }
+                    else if (hit.transform.CompareTag("Note"))
+                    {
+                        noteUI.SetActive(true);
+                        hit.transform.GetComponent<DataStorage>().noteText.SetActive(true);
+                        pause = true;
+                    }
+                    else if (hit.transform.CompareTag("LastDoor"))
+                    {
+                        if (lastDoor)
+                        {
+                            endUI.SetActive(true);
+                            pause = true;
+                        }
+                    }
+                    else if (hit.transform.CompareTag("Door"))
+                    {
+                        bool opened = false;
+                        for (int i = 0; i < unlockedDoors.Count; i++)
+                        {
+                            if (hit.transform == unlockedDoors[i])
+                            {
+                                if (hit.transform.parent.parent.GetComponent<Animator>().GetBool("open"))
+                                {
+                                    hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", false);
+                                }
+                                else
+                                {
+                                    hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
+                                }
+
+                                if (secondDoor) // first unlocked door that isn't the starting room
+                                {
+                                    musicKey.SetActive(true); // activate the music key where the monster was sitting
+                                    monsterMove.SetActive(true); // activate the actual monster enemy
+                                    unlockedDoors[2].parent.parent.GetComponent<Animator>().SetBool("open", false); // close the starting room door
+                                    secondDoor = false;
+                                }
+
+                                opened = true;
+                                AudioManager.playSound("door");
+                                break;
+                            }
+                        }
+                        if (!opened)
+                        {
+                            if (firstDoor)
+                            {
+                                firstDoor = false;
+                                monsterSit.SetActive(false);
+                                hit.transform.parent.parent.GetComponent<Animator>().SetBool("open", true);
+                                unlockedDoors.Add(hit.transform);
+                                AudioManager.playSound("door");
+                            }
                         }
                     }
                 }
@@ -157,5 +190,30 @@ public class PlayerItemInteraction : MonoBehaviour
                 keyText.GetChild(3).GetComponent<TextMeshProUGUI>().text = "no key for me\n     no key for me?";
             }
         }
+    }
+
+    public void EndGame()
+    {
+        monsterMove.SetActive(false);
+        endDoor.parent.parent.GetComponent<Animator>().SetBool("open", true);
+        if (musicbox)
+        {
+
+        }
+        else
+        {
+            monsterLose.SetActive(true);
+        }
+    }
+
+    public void Resume()
+    {
+        for (int i = 1; i < noteUI.transform.childCount; i++)
+        {
+            noteUI.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        noteUI.SetActive(false);
+        endUI.SetActive(false);
+        pause = false;
     }
 }

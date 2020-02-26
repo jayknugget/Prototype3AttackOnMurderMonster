@@ -7,9 +7,9 @@ TagManager:
   - Fire
   - Door
   - Key
-  - HolyGrail
   - Note
   - LastDoor
+  - MusicBox
   layers:
   - Default
   - TransparentFX
