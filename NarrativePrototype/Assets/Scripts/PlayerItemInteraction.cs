@@ -196,7 +196,6 @@ public class PlayerItemInteraction : MonoBehaviour
         else // defeat :(
         {
             monsterLose.SetActive(true); // jump scare
-            Resume();
         }
     }
 
