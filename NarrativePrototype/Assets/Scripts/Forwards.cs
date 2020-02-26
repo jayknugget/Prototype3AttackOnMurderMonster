@@ -1,21 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class Forwards : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
+    private Transform playerPos;
+    private void Start()
     {
-        GetComponent<Rigidbody>().velocity = Vector3.right * 260f * Time.deltaTime;
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        GetComponent<NavMeshAgent>().speed = 10f;
+        GetComponentInChildren<Animator>().SetTrigger("Attack");
     }
 
-    private void OnCollisionEnter(Collision c)
+    private void Update()
+    {
+        GetComponent<NavMeshAgent>().destination = playerPos.position;
+    }
+
+    private void OnTriggerStay(Collider c)
     {
         if (c.transform.tag == "Player")
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 }

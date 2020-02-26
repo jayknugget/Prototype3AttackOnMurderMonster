@@ -51,9 +51,8 @@ public class Enemy : MonoBehaviour
                 playerhealth = playerhealth - 5;
                 if(playerhealth <= 0)
                 {
-                    SceneManager.LoadScene(0);
+                    SceneManager.LoadScene(1);
                 }
- 
             }
             else
             {
