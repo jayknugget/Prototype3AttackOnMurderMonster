@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     {
         if (Flashlight.flashlightOn)
         {
-            myAgent.speed = 3f;
+            myAgent.speed = 1.4f;
         }
         else
         {

@@ -146,49 +146,42 @@ public class PlayerItemInteraction : MonoBehaviour
 
     private void TextUpdate()
     {
-            if (keys == 0)
-            {
-                keyText.GetChild(0).gameObject.SetActive(false);
-                keyText.GetChild(1).gameObject.SetActive(false);
-                keyText.GetChild(2).gameObject.SetActive(false);
-                keyText.GetChild(3).gameObject.SetActive(false);
-                keyText.GetChild(4).gameObject.SetActive(true);
-                keyText.GetChild(4).GetComponent<TextMeshProUGUI>().text = "He follows the light\n Look to the walls for answers\nLMB: Collect | RMB: Flashlight";
-            }
-            else if (keys == 1)
-            {
-                keyText.GetChild(0).gameObject.SetActive(true);
-                keyText.GetChild(1).gameObject.SetActive(true);
-                keyText.GetChild(2).gameObject.SetActive(false);
-                keyText.GetChild(3).gameObject.SetActive(false);
-                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "my dear - \noh, my love";
-                keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "you forgot to lock the door.";
-            }
-            else if (keys == 2)
-            {
-                keyText.GetChild(0).gameObject.SetActive(true);
-                keyText.GetChild(1).gameObject.SetActive(false);
-                keyText.GetChild(2).gameObject.SetActive(false);
-                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "you thought\nyou could find us";
-            }
-            else if (keys == 3)
-            {
-                keyText.GetChild(0).gameObject.SetActive(false);
-                keyText.GetChild(1).gameObject.SetActive(false);
-                keyText.GetChild(2).gameObject.SetActive(true);
-                keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "     we locked the doors\n     but it was already inside";
-            }
-            else if (keys == 4)
-            {
-                keyText.GetChild(0).gameObject.SetActive(true);
-                keyText.GetChild(1).gameObject.SetActive(true);
-                keyText.GetChild(2).gameObject.SetActive(true);
-                keyText.GetChild(3).gameObject.SetActive(true);
-                keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "one key in\nyour left\neye";
-                keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "one key in your right eye";
-                keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "one key in your tongue\nsings a song for me";
-                keyText.GetChild(3).GetComponent<TextMeshProUGUI>().text = "no key for me\n     no key for me?";
-            }
+        if (keys == 0)
+        {
+            keyText.GetChild(0).gameObject.SetActive(false);
+            keyText.GetChild(1).gameObject.SetActive(false);
+            keyText.GetChild(2).gameObject.SetActive(false);
+            keyText.GetChild(3).gameObject.SetActive(false);
+            keyText.GetChild(4).gameObject.SetActive(true);
+            keyText.GetChild(4).GetComponent<TextMeshProUGUI>().text = "He follows the light\n Look to the walls for answers\nLMB: Collect | RMB: Flashlight";
+        }
+        else if (keys == 1)
+        {
+            keyText.GetChild(0).gameObject.SetActive(true);
+            keyText.GetChild(1).gameObject.SetActive(true);
+            keyText.GetChild(2).gameObject.SetActive(false);
+            keyText.GetChild(3).gameObject.SetActive(false);
+            keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "my dear - \noh, my love";
+            keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "you forgot to lock the door.";
+        }
+        else if (keys == 2)
+        {
+            keyText.GetChild(0).gameObject.SetActive(false);
+            keyText.GetChild(1).gameObject.SetActive(false);
+            keyText.GetChild(2).gameObject.SetActive(true);
+            keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "     we locked the doors\n     but it was already inside";
+        }
+        else if (keys == 3)
+        {
+            keyText.GetChild(0).gameObject.SetActive(true);
+            keyText.GetChild(1).gameObject.SetActive(true);
+            keyText.GetChild(2).gameObject.SetActive(true);
+            keyText.GetChild(3).gameObject.SetActive(true);
+            keyText.GetChild(0).GetComponent<TextMeshProUGUI>().text = "one key in\nyour left\neye";
+            keyText.GetChild(1).GetComponent<TextMeshProUGUI>().text = "one key in your right eye";
+            keyText.GetChild(2).GetComponent<TextMeshProUGUI>().text = "one key in your tongue\nsings a song for me";
+            keyText.GetChild(3).GetComponent<TextMeshProUGUI>().text = "no key for me\n     no key for me?";
+        }
     }
 
     public void EndGame()
