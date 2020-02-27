@@ -10,8 +10,8 @@ public class Forwards : MonoBehaviour
     private void Start()
     {
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        GetComponent<NavMeshAgent>().speed = 10f;
-        GetComponentInChildren<Animator>().SetTrigger("Attack");
+        GetComponent<NavMeshAgent>().speed = 3f;
+        //GetComponentInChildren<Animator>().SetTrigger("Attack");
     }
 
     private void Update()

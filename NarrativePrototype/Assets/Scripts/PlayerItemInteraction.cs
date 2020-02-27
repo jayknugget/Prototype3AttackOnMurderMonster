@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.FirstPerson;
 using TMPro;
 
 public class PlayerItemInteraction : MonoBehaviour
@@ -202,6 +203,7 @@ public class PlayerItemInteraction : MonoBehaviour
         else // defeat :(
         {
             monsterLose.SetActive(true); // jump scare
+            GetComponent<RigidbodyFirstPersonController>().enabled = false;
             Resume();
         }
     }
